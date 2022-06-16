@@ -1,0 +1,6 @@
+FROM mongo:4.4.13
+LABEL author="Luis"
+
+WORKDIR /
+
+EXPOSE 27017
