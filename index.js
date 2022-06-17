@@ -1,17 +1,33 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const mongoose = require('mongoose');
 
-const app = express()
+
+mongoose.connect(`mongodb://localhost:27017/geomar`,
+    {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+    });
+
+mongoose.connection.on('connected', () => {
+    console.log('Connected to Database ');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.log(`Database error ${err}`);
+});
+mongoose.Promise = global.Promise;
+
+
+const app = express();
 const port = 80
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-app.get('/', (req, res) => {
-    res.send('teste ok').end()
-
-})
+app.use('/app', require('./src/routes/app')());
 
 
 app.listen(port, () => {
