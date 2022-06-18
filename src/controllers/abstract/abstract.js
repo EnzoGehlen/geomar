@@ -10,7 +10,7 @@ module.exports = class AbstractController {
           },
       };
       this.service.get(req.query, (response) => {
-          dados.data.rows = response;
+          dados.data = response;
           res.json(dados).end();
       });
   }

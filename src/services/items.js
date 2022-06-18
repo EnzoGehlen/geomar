@@ -10,8 +10,15 @@ module.exports = class Items {
 
     static get(params, callback) {
         let query = {};
-        ItemsModel.find().then((resp) => {
-            callback(resp);
+        ItemsModel.find().populate('category').then((resp) => {
+          let ret = [];
+          resp.forEach((item) => {
+            ret.push({
+              ...item._doc,
+              actions: `<a class="button_trigger" onclick="form('${item._id}')" style='cursor:pointer' >Editar</a> | <a  style='cursor:pointer' onclick="del('${item._id}')">Apagar</a>`,
+            });
+          });
+            callback(ret);
         });
     }
 

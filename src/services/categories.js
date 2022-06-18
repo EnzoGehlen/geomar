@@ -11,7 +11,14 @@ module.exports = class Categories {
     static get(params, callback) {
         let query = {};
         CategoriesModel.find().then((resp) => {
-            callback(resp);
+          let ret = [];
+          resp.forEach((item) => {
+            ret.push({
+              ...item._doc,
+              actions: `<a class="button_trigger" onclick="form('${item._id}')" style='cursor:pointer' >Editar</a> | <a  style='cursor:pointer' onclick="del('${item._id}')">Apagar</a>`,
+            });
+          });
+            callback(ret);
         });
     }
 
