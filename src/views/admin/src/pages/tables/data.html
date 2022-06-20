@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | DataTables</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-scroller/css/scroller.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-select/css/select.bootstrap4.min.css">
+
+  <link rel="stylesheet" href="../../plugins/codemirror/codemirror.css">
+  <link rel="stylesheet" href="../../plugins/codemirror/theme/monokai.css">
+  <link rel="stylesheet" href="../../plugins/codemirror/addon/hint/show-hint.css">
+
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+  <link rel="stylesheet" href="../../plugins/sweetalert2/sweetalert2.min.css">
+  <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <style>
+    .form-control:disabled, .form-control[readonly]{
+      font-family: monospace;
+    }
+    .nav-link{
+      color: #FFF;
+    }
+
+    .nav-link .active {
+      background-color: #3f474e;
+    }
+
+    .li_modal {
+      line-height: 25px;
+      margin-bottom: 15px;
+    }
+
+    .div_modal {
+      background-color: rgb(41, 40, 40);
+      font-family: monospace;
+      font-size: 0.9em;
+      text-align: left;
+      max-height: 10vw;
+      overflow-y: auto;
+    }
+
+    #input_cell{
+      background-color: transparent;
+      color: #FFF;
+      border: 0px;
+    }
+
+    #input_cell:focus {
+      outline: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #343A40;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3f6791;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #335476;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary card-tabs">
+          <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-five-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-five-overlay-tab" data-toggle="pill" href="#custom-tabs-five-overlay" role="tab" aria-controls="custom-tabs-five-overlay" aria-selected="true">Propriedades</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link reload" table-reload="data" id="custom-tabs-five-normal-tab" data-toggle="pill" href="#custom-tabs-five-normal" role="tab" aria-controls="custom-tabs-five-normal" aria-selected="false">Dados</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content" id="custom-tabs-five-tabContent">
+              <div class="tab-pane fade show active" id="custom-tabs-five-overlay" role="tabpanel" aria-labelledby="custom-tabs-five-overlay-tab">
+                <div class="overlay-wrapper">
+                  <div class="row">
+                    <div class="col-5 col-sm-3">
+                      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="vert-tabs-info-tab" data-toggle="pill" href="#vert-tabs-info" role="tab" aria-controls="vert-tabs-info" aria-selected="true"><i class="fas fa-info-circle"></i> Info</a>
+                        <a class="nav-link reload" table-reload="columns" id="vert-tabs-columns-tab" data-toggle="pill" href="#vert-tabs-columns" role="tab" aria-controls="vert-tabs-columns" aria-selected="false"><i class="fas fa-columns"></i> Colunas</a>
+                        <a class="nav-link reload" table-reload="index" id="vert-tabs-index-tab" data-toggle="pill" href="#vert-tabs-index" role="tab" aria-controls="vert-tabs-index" aria-selected="false"><i class="fas fa-info"></i> Índices</a>
+                        <a class="nav-link reload" table-reload="triggers" id="vert-tabs-triggers-tab" data-toggle="pill" href="#vert-tabs-triggers" role="tab" aria-controls="vert-tabs-triggers" aria-selected="false"><i class="fas fa-bolt"></i> Triggers</a>
+                        <a class="nav-link" id="vert-tabs-ddl-tab" data-toggle="pill" href="#vert-tabs-ddl" role="tab" aria-controls="vert-tabs-ddl" aria-selected="false"><i class="fas fa-table"></i> DDL</a>
+                      </div>
+                    </div>
+                    <div class="col-7 col-sm-9">
+                      <div class="tab-content" id="vert-tabs-tabContent">
+                        <div class="tab-pane text-left fade show active" id="vert-tabs-info" role="tabpanel" aria-labelledby="vert-tabs-info-tab">
+                          <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-6">
+                              <!-- general form elements -->
+                              <div class="card card-primary">
+                                <div class="card-header">
+                                  <h3 class="card-title">Propriedades da Tabela</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label>Nome</label>
+                                          <input type="text" disabled id="Name" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <label>Engine</label>
+                                          <input type="text" disabled id="Engine" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <label>AutoIncrement</label>
+                                          <input type="text" disabled id="Auto_increment" class="form-control">
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label>Versão</label>
+                                          <input type="text" disabled id="Version" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <label>Colação</label>
+                                          <input type="text" disabled id="Collation" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <label>Comentários</label>
+                                          <textarea type="text" disabled id="Comment" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="card card-primary">
+                                <div class="card-header">
+                                  <h3 class="card-title">Estatísticas</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Total de linhas</label>
+                                        <input type="text" disabled id="Rows" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Média de linhas</label>
+                                        <input type="text" disabled id="Avg_row_length" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Tamanho dos dados</label>
+                                        <input type="text" disabled id="Data_length" class="form-control">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Tamanho livre</label>
+                                        <input type="text" disabled id="Data_free" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Tamanho do índice</label>
+                                        <input type="text" disabled id="Index_length" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Formato dos registros</label>
+                                        <input type="text" disabled id="Row_format" class="form-control">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="form-group">
+                                        <label>Create</label>
+                                        <input type="text" disabled id="Create_time" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Update</label>
+                                        <input type="text" disabled id="Update_time" class="form-control">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>CheckTime</label>
+                                        <input type="text" disabled id="Create_time" class="form-control">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-columns" role="tabpanel" aria-labelledby="vert-tabs-profile-columns">
+                          <table id="columns" style="width:100%" class="table table-sm table-bordered table-hover">
+                          </table>
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-index" role="tabpanel" aria-labelledby="vert-tabs-profile-index">
+                          <button id="button_removeIndex" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Remover</button>
+                          <table id="index" style="width:100%" class="table table-sm table-bordered table-striped">
+                          </table>
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-triggers" role="tabpanel" aria-labelledby="vert-tabs-profile-triggers">
+                          <button id="button_trigger" class="btn btn-primary"><i class="fas fa-edit"></i> Editar registro selecionado</button>
+                          <table id="triggers" style="width:100%" class="table table-sm table-bordered table-striped">
+                            <thead>
+                            <tr>
+                              <th>Nome</th>
+                              <th>Tabela</th>
+                              <th>Tempo</th>
+                              <th>Evento</th>
+                            </tr>
+                            </thead>
+                          </table>
+                          <div class="modal fade" id="modal_trigger">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Editar Trigger</h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body trigger_body">
+                                  <form id="form_trigger">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Nome</label>
+                                            <input type="text" name="Trigger" id="Trigger" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Tabela</label>
+                                            <select name="Table" id="Table" class="form-control">
+
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Momento da ação</label>
+                                            <select name="Timing" id="Timing" class="form-control">
+                                              <option value="BEFORE">BEFORE</option>
+                                              <option value="AFTER">AFTER</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Evento</label>
+                                            <select name="Event" id="Event" class="form-control">
+                                              <option value="INSERT">INSERT</option>
+                                              <option value="UPDATE">UPDATE</option>
+                                              <option value="DELETE">DELETE</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Definição</label>
+                                          <textarea name="Statement" id="Statement" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                          <label>Definidor</label>
+                                          <input name="Definer" id="Definer" class="form-control">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                  <button type="button" id="button_updateTrigger" class="btn btn-primary">Executar</button>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="vert-tabs-ddl" role="tabpanel" aria-labelledby="vert-tabs-profile-ddl">
+                          <textarea style="height: 500px" rows="24" disabled id="codeMirrorDemo" class="p-3"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="custom-tabs-five-normal" role="tabpanel" aria-labelledby="custom-tabs-five-normal-tab">
+                <section class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Registros</h3>
+
+                            <div class="card-tools">
+                              <button class="btn btn-primary d-none" title="Executar updates (ctrl + Enter)" onclick="runUpdate()"><i class="fas fa-save"></i></button>
+                            </div>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <table id="data" style="width:100%" class="table table-sm table-bordered table-hover">
+                              <h3 id="no_data">Nenhum registro encontrado.</h3>
+                            </table>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container-fluid -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </div>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../plugins/datatables-scroller/js/scroller.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-scroller/js/dataTables.scroller.min.js"></script>
+<script src="../../plugins/datatables-select/js/dataTables.select.js"></script>
+<script src="../../plugins/datatables-select/js/select.bootstrap4.min.js"></script>
+
+<script src="../../plugins/codemirror/codemirror.js"></script>
+<script src="../../plugins/codemirror/mode/sql/sql.js"></script>
+<script src="../../plugins/codemirror/addon/hint/show-hint.js"></script>
+<script src="../../plugins/codemirror/addon/hint/sql-hint.js"></script>
+<script src="../../plugins/codemirror/addon/display/autorefresh.js"></script>
+
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+
+
+<script src="../../plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="../../plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- Page specific script -->
+<script>
+  const table = new URLSearchParams(window.location.search).get('table');
+  let tables = [];
+  let updates = [];
+  let backup = [];
+  window.addEventListener('keydown', (event) => {
+    if (event.keyCode == 13 && event.ctrlKey) {
+      event.preventDefault();
+      runUpdate();
+    }
+  });
+  $(document).ready(() => {
+    $.post(`/consulta/${table}`, { start: 0 })
+      .done((response) => {
+        const columns = [];
+        Object.keys(response.data[0]).forEach((column) => {
+          columns.push({ data: column, title: column });
+        });
+        if (columns.length) {
+          $('#no_data').html('');
+        }
+
+        let cell = '';
+        let data = '';
+
+
+        this.tbl = $('#data').DataTable({
+          "processing": true,
+          "serverSide": true,
+          language: {
+            url: '../../plugins/datatables/plugins/pt_br.json'
+          },
+          "scrollX": true,
+          "scrollY": 500,
+          select: {
+            items: 'cell'
+          },
+          "buttons": true,
+          "ajax": {
+            "url": `/consulta/${table}`,
+            "type": "POST"
+          },
+          columns: columns,
+          deferRender: true,
+          scroller: true,
+          select: {
+            items: 'cell'
+          },
+        });
+        tables['data'] = this.tbl;
+
+        $('#data tbody').on( 'dblclick', 'td', function () {
+          data = tables['data'].cell(this).data();
+          cell = tables['data'].cell(this);
+          tables['data'].cell(this).data(`<input id="input_cell" type="text" value="${data}" />`);
+          cell.node().style.border = '2px solid darkseagreen';
+          $('#input_cell').focus().select();
+          $('#input_cell').focusout(() => {
+            buildUpdate(tables['data'], );
+          });
+        } );
+
+        $(document).on('keyup','#input_cell', (event) => {
+          if (event.which === 13) {
+            buildUpdate(tables['data']);
+          }
+        });
+      });
+
+    $.get(`/table/status/${table}`)
+    .done((response) => {
+      Object.entries(response.resp[0]).forEach(([column, value]) => {
+        $(`#${column}`).val(value);
+      })
+    });
+
+    $.get(`/table/columns/${table}`)
+    .done((response) => {
+      const columns = [];
+      Object.keys(response.data[0]).forEach((column) => {
+        columns.push({ data: column, title: column });
+      });
+      tables['columns'] = $('#columns').DataTable({
+        "processing": true,
+        language: {
+          url: '../../plugins/datatables/plugins/pt_br.json'
+        },
+        "scrollX": true,
+        "scrollY": 500,
+        "ajax": {
+          "url": `/table/columns/${table}`,
+        },
+        "columns": columns
+      });
+      $('#columns tbody').on( 'dblclick', 'td', function () {
+        data = tables['columns'].cell(this).data();
+        cell = tables['columns'].cell(this);
+        if (tables['columns'].column(cell.index().column).header().innerHTML === 'Type') {
+          tables['columns'].cell(this).data(`<input id="input_cell" type="text" value="${data}" />`);
+          cell.node().style.border = '2px solid darkseagreen';
+          $('#input_cell').focus().select();
+          $('#input_cell').focusout(() => {
+            buildUpdate(tables['columns']);
+          });
+        }
+      } );
+
+      $(document).on('keyup','#input_cell', (event) => {
+        if (event.which === 13) {
+          buildUpdate(tables['columns']);
+        }
+      });
+    });
+
+    $.get(`/table/index/${table}`)
+      .done((response) => {
+        const columns = [];
+        Object.keys(response.data[0]).forEach((column) => {
+          columns.push({ data: column, title: column });
+        });
+
+        tables['index'] = $('#index').DataTable({
+          "processing": true,
+          language: {
+            url: '../../plugins/datatables/plugins/pt_br.json'
+          },
+          "scrollX": true,
+          "scrollY": 500,
+          "ajax": {
+            "url": `/table/index/${table}`,
+          },
+          columns: columns,
+        });
+
+        $('#index tbody').on( 'click', 'tr', function () {
+          if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+          }
+          else {
+            tables['index'].$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+          }
+        });
+
+        $('#button_removeIndex').click(() => {
+          const data = tables['index'].row('.selected').data();
+          if (data) {
+            Swal.fire({
+              title: 'Atenção',
+              text: 'Você está prestes a alterar o banco de dados.',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Continuar',
+              cancelButtonText: 'Cancelar',
+              width: '35%',
+            }).then((result) => {
+              $.post('/removeIndex', data)
+                .done((res) => {
+                  if(res.status == 'success'){
+                    if (result.isConfirmed) {
+                      Swal.fire(
+                        'Sucesso!',
+                        res.msg,
+                        'success'
+                      )
+                    }
+                    tables['index'].ajax.reload();
+                  } else {
+                    Swal.fire(
+                      'Erro',
+                      res.msg.sqlMessage,
+                      'error'
+                    )
+                  }
+
+                })
+            })
+          }
+        } );
+      });
+
+    $.get(`/table/ddl/${table}`)
+      .done((response) => {
+        const editor = CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+          mode: "sql",
+          theme: "monokai",
+          lineNumbers: true,
+          autoRefresh:true,
+        });
+
+        editor.setValue(response.data[0]['Create Table']);
+        editor.setSize(null, 600);
+      });
+
+    tables['triggers'] = $('#triggers').DataTable({
+      "processing": true,
+      language: {
+        url: '../../plugins/datatables/plugins/pt_br.json'
+      },
+      "scrollX": true,
+      "scrollY": 500,
+      "ajax": {
+        "url": `/table/triggers/${table}`,
+      },
+      "columns": [
+        { "data": "Trigger" },
+        { "data": "Table" },
+        { "data": "Timing" },
+        { "data": "Event" }
+      ]
+    });
+
+    $('#triggers tbody').on( 'click', 'tr', function () {
+      if ( $(this).hasClass('selected') ) {
+        $(this).removeClass('selected');
+      }
+      else {
+        tables['triggers'].$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+      }
+    } );
+
+    $('#button_trigger').click(() => {
+      Object.keys(JSON.parse(localStorage.getItem('tables')).tables).forEach((table) => {
+        $('#Table').append(`<option name='${table}'>${table}</option>`);
+      });
+      const data = tables['triggers'].row('.selected').data();
+      $('.CodeMirror').remove();
+      this.statement = data.Statement;
+      if (data) {
+        $('#modal_trigger').modal('show');
+          Object.entries(data).forEach(([column, value]) => {
+            if (column === 'Definer') {
+              value = value.split('@')[0] + '\'@\'' + value.split('@')[1]
+            }
+            $(`#${column}`).val(value);
+          });
+        const editor = CodeMirror.fromTextArea(document.getElementById("Statement"), {
+          mode: "sql",
+          theme: "monokai",
+          lineNumbers: true,
+          autoRefresh:true,
+        });
+
+        editor.on('changes', () => {
+          this.statement = editor.getValue();
+        });
+
+        editor.setValue(data.Statement);
+        editor.setSize(null, 300);
+      }
+    } );
+
+    $('#button_updateTrigger').click(() => {
+      $('#Statement').val(this.statement);
+      let query = {};
+      Object.values($('#form_trigger').serializeArray()).forEach((item) => {
+        query[item.name] = item.value;
+      });
+      Swal.fire({
+        title: 'Atenção',
+        text: 'Você está prestes a alterar o banco de dados. Revise suas alterações antes de continuar.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Continuar',
+        cancelButtonText: 'Cancelar',
+        width: '35%',
+      }).then((result) => {
+        $.post('/updateTrigger', query)
+          .done((res) => {
+            if(res.status == 'success'){
+              if (result.isConfirmed) {
+                Swal.fire(
+                  'Sucesso!',
+                  '',
+                  'success'
+                )
+              }
+              $('#modal_trigger').modal('hide');
+              tables['triggers'].ajax.reload();
+            } else {
+              Swal.fire(
+                'Erro',
+                res.msg.sqlMessage,
+                'error'
+              )
+            }
+
+          })
+      })
+    });
+
+    $('.reload').click(function() {
+      setTimeout(() => {
+        tables[$(this).attr('table-reload')].columns.adjust();
+      }, 200);
+
+    });
+  });
+
+  function runUpdate(){
+    Swal.fire({
+      title: 'Atenção',
+      html: `<div class="card bg-gradient-primary collapsed-card">
+<div class="card-header">
+<h3 class="card-title">${updates.length} registros serão atualizados: </h3>
+<div class="card-tools">
+<button title="Ver mais" type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+</button>
+</div>
+
+</div>
+
+<div class="card-body div_modal" style="display: none;">
+<button class="btn btn-primary float-right toastsDefaultSuccess btn-updates" title="Copiar" onclick="copy('updates')"><i class="fas icon-updates fa-clipboard"></i></button>
+<ul style="list-style: none;
+    padding: 10px;
+    margin: 0px;">
+${updates.map(item => `<li class="li_modal">${item}</li>`).toString().replaceAll(',', '')}
+</ul>
+
+
+</div>
+
+</div>
+<div class="card bg-gradient-primary collapsed-card">
+<div class="card-header">
+<h3 class="card-title">SQL backup: </h3>
+<div class="card-tools">
+<button title="Ver mais" type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+</button>
+</div>
+
+</div>
+
+<div class="card-body div_modal" style="display: none;">
+<button class="btn btn-primary float-right toastsDefaultSuccess btn-backup" title="Copiar" onclick="copy('backup')"><i class="fas icon-backup fa-clipboard"></i></button>
+<ul style="list-style: none;
+    padding: 10px;
+    margin: 0px;">
+${backup.map(item => `<li class="li_modal">${item}</li>`).toString().replaceAll(',', '')}
+</ul>
+
+
+</div>
+
+</div>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      width: '35%',
+    }).then((result) => {
+      $.post('/updates', { query: JSON.stringify(updates)})
+      .done((res) => {
+        if(res.status == 'success'){
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Sucesso!',
+              'Seus registros foram atualizados.',
+              'success'
+            )
+          }
+          tables['data'].ajax.reload();
+        } else {
+          Swal.fire(
+            'Erro',
+            res.msg.sqlMessage ?? res.msg,
+            'error'
+          )
+        }
+      });
+      updates = [];
+      backup = [];
+    })
+  }
+
+  function copy(context){
+    navigator.clipboard.writeText(eval(context).map(i => i).toString().replaceAll(',', '\n'));
+    $('.btn-'+ context).removeClass('btn-primary');
+    $('.btn-'+ context).addClass('btn-success');
+
+    $('.icon-'+ context).removeClass('fa-clipboard');
+    $('.icon-'+ context).addClass('fa-check');
+  }
+</script>
+</body>
+</html>

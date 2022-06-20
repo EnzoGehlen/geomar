@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Webpage description goes here" />
+  <meta charset="utf-8">
+  <title>GeomarGames - Biblioteca</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.14.3/dist/css/uikit.min.css" />
+<link rel="stylesheet" href="admin/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="public/css/style.css" />
+<link rel="stylesheet" href="../app/admin/plugins/sweetalert2/sweetalert2.min.css">
+
+</head>
+
+<body cz-shortcut-listen="true" data-uk-filter="target: .js-filter; animation: fade">
+  <div id="modal-trabalhe" uk-modal="" class="uk-modal">
+      <div class="uk-modal-dialog">
+          <button class="uk-modal-close-default uk-close uk-icon" type="button" uk-close=""><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" data-svg="close-icon"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
+          <div class="uk-modal-body">
+            <ul class="uk-child-width-expand" uk-tab>
+              <li><a href="#">Entrar</a></li>
+              <li><a href="#">Registrar</a></li>
+          </ul>
+          
+          <ul class="uk-switcher uk-margin">
+              <li>
+                  <form class="uk-form-stacked" id="formLogin">
+                      <div class="uk-margin">
+
+                          <div class="uk-form-controls">
+                              <input class="uk-input" id="login" name="login" type="text" placeholder="Login">
+                          </div>
+                      </div>
+                      <div class="uk-margin">
+                          <div class="uk-form-controls">
+                              <input class="uk-input password" id="password" name="password" type="password" placeholder="Senha">
+                          </div>
+                      </div>
+                  </form>
+                  <div class="uk-margin">
+                    <button class="uk-button uk-button-primary" id="button_login">Entrar</button>
+                    <p id="login_error"></p>
+                </div>
+              </li>
+              <li>
+                <form method="post" id="formRegister" enctype="multipart/form-data">
+                  <div class="uk-margin">
+                      <input class="uk-input name" type="text" id="name" name="name" placeholder="Nome">
+                  </div>
+                  <div class="uk-margin">
+                      <input class="uk-input login" type="text" name="login" placeholder="Login">
+                  </div>
+                  <div class="uk-margin">
+                      <input class="uk-input password" type="password" name="password" placeholder="Senha">
+                  </div>
+              </form>
+              <button class="uk-button uk-button-primary enviaTrab" id="button_register">Cadastrar</button>
+              <p id="register_error"></p>
+              </li>
+          </ul>
+              
+          </div>
+      </div>
+  </div>
+      <!-- TOP -->
+  <div class=" uk-position-relative uk-light uk-background-secondary" style="height: 1px;">
+  
+              <!-- NAV -->
+              <div class="nav uk-sticky" style="background-color: rgba(0, 0, 0, 0.8);" data-uk-sticky="cls-active: uk-background-secondary uk-box-shadow-medium; top: 50vh; animation: uk-animation-slide-top">
+                  <div class="uk-container">
+                      <nav class="uk-navbar uk-navbar-container uk-navbar-transparent" data-uk-navbar="">
+                          <div class="uk-navbar-left">
+                              <div class="uk-navbar-item uk-padding-remove-horizontal">
+                                  <a class="uk-logo" title="Logo" href="#">Geomar Games</a>
+                              </div>
+                          </div>
+                          <div class="uk-navbar-right">
+                              <ul class="uk-navbar-nav uk-visible@s">
+                                  <li class="minha-conta">
+                                      <a href="#" class="show-user d-none" style="display: none" data-uk-icon="chevron-down">Minha conta</a>
+                                      <div class="uk-navbar-dropdown">
+                                          <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li class="show-admin" ><a href="/app/admin">Painel administrativo</a></li>
+                                            <li><a href="/app/lib">Biblioteca</a></li>
+                                            <li><a href="/logout">Sair</a></li>
+                                            
+                                          </ul>
+                                      </div>
+                                  </li>
+                                  <li class="entrar hide-user"><a href="#modal-trabalhe" uk-toggle="">Entrar</a></li>
+                              </ul>
+                              <button class="uk-button show-user uk-visible@s uk-button-default uk-margin-small-right" style="
+                              position: fixed;
+                              right: 0%;
+                              border-color: rgba(0,0,0,0);
+                              padding-top: 13px;
+                              display: none;"
+                               type="button" uk-toggle="target: #offcanvas-reveal">
+                                <i class="fas show-user fa-shopping-cart fa-2x"></i>
+                              </button>
+                              </div>
+                      </nav>
+                  </div>
+              </div><div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;" hidden=""></div>
+  
+
+  
+      <div id="offcanvas-reveal" uk-offcanvas="mode: reveal; flip: true; overlay: true" class="uk-offcanvas">
+          <div class="uk-offcanvas-bar" style="background:#222">
+  
+              <button class="uk-offcanvas-close uk-close uk-icon" type="button" uk-close=""><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" data-svg="close-icon"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
+  
+              <h3>Meu Carrinho</h3>
+  
+              <p>
+              </p>
+              <div id="formulario-quick">
+                <span class="no_items" style="display: none">
+                    Sem itens no carrinho
+                </span>
+                <div class="items">
+                </div>
+                <button class="uk-button uk-button-primary uk-width-1-1 buy_btn" style="background-color: red; color: white" onclick="buy()">Comprar agora</button>
+              </div>
+              <p></p>
+  
+          </div>
+      </div>
+  
+      <!-- /NAV -->
+    
+      </div>
+      <section class="uk-margin-large-top uk-section uk-padding uk-section-secondary uk-section-large">
+        <div class="uk-container">
+            <div class="uk-grid uk-child-width-1-2@l uk-flex-middle">
+                <div>
+                    <h2 class="uk-margin-small-top uk-h1">Minha Biblioteca</h2>
+                    <p class="subtitle-text">
+                      Veja seus jogos e troque-os caso deseje
+                    </p>
+                   
+                </div>
+                <div data-uk-scrollspy="cls: uk-animation-fade" class="uk-scrollspy-inview uk-animation-fade">
+                   
+                </div>
+                <div class="uk-container uk-container-small">
+                    <div class="uk-grid uk-child-width-1-4 uk-child-width-expand@m logos-grid" data-uk-grid="" data-uk-scrollspy="cls: uk-animation-scale-down; target: > div > img; delay: 100">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+      <section style="min-height: 500px;" class="uk-section uk-section-small uk-section-secondary uk-padding-remove-bottom">
+        <div class="uk-container ">
+            <form id="search-form" action="">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: search"></span>
+                    <input class="uk-input uk-width-1-1 search-fld" type="text" placeholder="Digite para buscar..." autofocus>
+                    <a hidden href="#" class="search-filter" data-uk-filter-control="[data-tags*='']">Search</a>
+                    <a hidden href="#" class="search-filter-all" data-uk-filter-control>Search all</a>
+                    <a hidden href="#" class="search-filter-none" data-uk-filter-control="[data-empty='']">Filter none</a>
+                </div>
+            </form>
+            <ul class="uk-subnav uk-subnav-pill" id="filters">
+                <li class="uk-active" data-uk-filter-control=""><a href="#">Mostrar tudo</a></li>
+            </ul>
+            <div class="uk-grid uk-grid-medium uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l  uk-child-width-1-5@xl uk-grid-match js-filter" id="card-items"  data-uk-grid="masonry: true" data-uk-sortable="handle: .drag-icon">
+            </div>
+        </div>
+    </section>
+
+    
+      <!-- FOOTER -->
+      <footer  class="uk-section uk-section-secondary uk-padding-remove-bottom">
+              <div class="uk-container">
+                  <div class="uk-grid uk-grid-large" data-uk-grid="">
+                      <div class="uk-width-2-2@m uk-first-column">
+                          <h1 class="uk-text-center">Geomar Games</h1>
+  
+                          <div class="uk-text-center">
+  
+                              <a href="#" target="_blank" class="uk-icon-button uk-icon" data-uk-icon="whatsapp"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="whatsapp"><path d="M16.7,3.3c-1.8-1.8-4.1-2.8-6.7-2.8c-5.2,0-9.4,4.2-9.4,9.4c0,1.7,0.4,3.3,1.3,4.7l-1.3,4.9l5-1.3c1.4,0.8,2.9,1.2,4.5,1.2 l0,0l0,0c5.2,0,9.4-4.2,9.4-9.4C19.5,7.4,18.5,5,16.7,3.3 M10.1,17.7L10.1,17.7c-1.4,0-2.8-0.4-4-1.1l-0.3-0.2l-3,0.8l0.8-2.9 l-0.2-0.3c-0.8-1.2-1.2-2.7-1.2-4.2c0-4.3,3.5-7.8,7.8-7.8c2.1,0,4.1,0.8,5.5,2.3c1.5,1.5,2.3,3.4,2.3,5.5 C17.9,14.2,14.4,17.7,10.1,17.7 M14.4,11.9c-0.2-0.1-1.4-0.7-1.6-0.8c-0.2-0.1-0.4-0.1-0.5,0.1c-0.2,0.2-0.6,0.8-0.8,0.9 c-0.1,0.2-0.3,0.2-0.5,0.1c-0.2-0.1-1-0.4-1.9-1.2c-0.7-0.6-1.2-1.4-1.3-1.6c-0.1-0.2,0-0.4,0.1-0.5C8,8.8,8.1,8.7,8.2,8.5 c0.1-0.1,0.2-0.2,0.2-0.4c0.1-0.2,0-0.3,0-0.4C8.4,7.6,7.9,6.5,7.7,6C7.5,5.5,7.3,5.6,7.2,5.6c-0.1,0-0.3,0-0.4,0 c-0.2,0-0.4,0.1-0.6,0.3c-0.2,0.2-0.8,0.8-0.8,2c0,1.2,0.8,2.3,1,2.4c0.1,0.2,1.7,2.5,4,3.5c0.6,0.2,1,0.4,1.3,0.5 c0.6,0.2,1.1,0.2,1.5,0.1c0.5-0.1,1.4-0.6,1.6-1.1c0.2-0.5,0.2-1,0.1-1.1C14.8,12.1,14.6,12,14.4,11.9"></path></svg></a>
+                              <a href="#" class="uk-icon-button uk-icon" target="_blank" data-uk-icon="facebook"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="facebook"><path d="M11,10h2.6l0.4-3H11V5.3c0-0.9,0.2-1.5,1.5-1.5H14V1.1c-0.3,0-1-0.1-2.1-0.1C9.6,1,8,2.4,8,5v2H5.5v3H8v8h3V10z"></path></svg></a>
+                              <a href="#" class="uk-icon-button uk-icon" target="_blank" data-uk-icon="instagram"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="instagram"><path d="M13.55,1H6.46C3.45,1,1,3.44,1,6.44v7.12c0,3,2.45,5.44,5.46,5.44h7.08c3.02,0,5.46-2.44,5.46-5.44V6.44 C19.01,3.44,16.56,1,13.55,1z M17.5,14c0,1.93-1.57,3.5-3.5,3.5H6c-1.93,0-3.5-1.57-3.5-3.5V6c0-1.93,1.57-3.5,3.5-3.5h8 c1.93,0,3.5,1.57,3.5,3.5V14z"></path><circle cx="14.87" cy="5.26" r="1.09"></circle><path d="M10.03,5.45c-2.55,0-4.63,2.06-4.63,4.6c0,2.55,2.07,4.61,4.63,4.61c2.56,0,4.63-2.061,4.63-4.61 C14.65,7.51,12.58,5.45,10.03,5.45L10.03,5.45L10.03,5.45z M10.08,13c-1.66,0-3-1.34-3-2.99c0-1.65,1.34-2.99,3-2.99s3,1.34,3,2.99 C13.08,11.66,11.74,13,10.08,13L10.08,13L10.08,13z"></path></svg></a>
+                          </div>
+                      </div>
+                      <div class="uk-width-1-3@m uk-grid-margin uk-first-column">
+                         
+  
+                  </div>
+              </div>
+  
+              <div class="uk-text-center uk-padding uk-padding-remove-horizontal">
+                  <span class="uk-text-small uk-text-muted">2022 - GeomarGames | Desenvolvido por <a href="#">Luis & Cia</a></span>
+              </div>
+          </footer>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+  <script src="public/js/cards.js"></script>
+  <script src="../app/admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="../app/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+  
+  <script src=" https://code.jquery.com/jquery-3.4.1.js"></script>
+  
+  
+  
+  <script>
+      UIkit.util.on('#offcanvas-reveal', 'show', function() {
+          $('.aba').addClass('hidden');
+      });
+      UIkit.util.on('#offcanvas-reveal', 'hidden', function() {
+          $('.aba').removeClass('hidden');
+      });
+  </script>
+  
+  
+  <script>
+
+  $(document).ready(function() {
+    $('.show-user').hide();
+      getUser((user) => {
+        if (user) {
+            welcome(user);
+            updateCart();
+        }
+      });
+
+    function categorizeItems(arr) {
+        const result = {};
+        for (let i = 0; i < arr.length; i++) {
+            const category = arr[i].category.name;
+            if (!result[category]) {
+            result[category] = [];
+            }
+            result[category].push(arr[i]);
+        }
+        return result;
+    }
+
+    
+
+    getUser((user) => {
+      
+        if (user) {
+          console.log(user);
+            let data = user.library;
+            if (data.length > 0) {
+                data.forEach((item) => {
+                $('#card-items').append(`<div class="${item.category}-card" data-tags="${item.name} ${item.description} ${item.price} ${item.release} ${item.category}">
+                <div class="uk-card uk-card-small background-card">
+                    <div class="uk-card-header">
+                        <div class="uk-grid uk-grid-small uk-text-small" data-uk-grid>
+                            <div class="uk-width-expand">
+                                <span class="cat-txt"></span>
+                            </div>
+                            <div class="uk-width-auto uk-text-right uk-text-muted">
+                                <span data-uk-icon="icon:tag; ratio: 0.8"></span> 30% off
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-media">
+                        <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                            <img class="lazy" data-src="${item.image}" data-width="400" data-height="300" data-uk-img alt="" src="${item.image}">
+                            <div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-primary">
+                                <span data-uk-icon="icon:heart; ratio: 0.8"></span> 12.345 <span data-uk-icon="icon:comment; ratio: 0.8"></span> 12.345
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="uk-card-body">
+                        <h6 class="uk-margin-small-bottom uk-margin-remove-adjacent uk-text-bold">${item.name}</h6>
+                        <p class="uk-text-small uk-text-muted">${item.description}</p>
+                    </div>
+                    <div class="uk-card-footer">
+                        <div class="uk-grid uk-grid-small uk-grid-divider uk-flex uk-flex-middle" data-uk-grid>
+                            <div class="uk-width-expand uk-text-small">
+                                Já adquirido
+                            </div>
+                            <div class="uk-width-auto uk-text-right">
+                                <a data-uk-tooltip="title: Trocar por outro título" onclick="trade('${item._id}')" class="uk-icon-link drag-icon" data-uk-icon="icon: reply; ratio: 1"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`);
+            })
+        }
+      };    
+  });
+
+  function addToCart(id) {
+    getUser((user) => {
+        if (!user) {
+            alert('Para adicionar ao carrinho, voc� precisa estar logado');
+        } else {
+            user.cart = id;
+                $.ajax({
+                url: '/app/users/addToCart/' + user._id,
+                type: 'PUT',
+                data: {id},
+                success: function(res) {
+                    updateCart();
+                    UIkit.offcanvas('#offcanvas-reveal').show();
+                }
+            });
+        }
+    })
+  }
+
+  function trade(id) {
+
+  }
+
+  function buy() {
+    getUser((user) => {
+        if (user) {
+                $.ajax({
+                url: '/app/users/buy/' + user._id,
+                type: 'GET',
+                data: {id: user._id},
+                success: function(res) {
+                    updateCart();
+                    Swal.fire(
+                        res.messages[0].body ?? 'Sucesso!',
+                        '',
+                        'success'
+                    )
+                    
+                }
+            });
+        }
+    })
+  }
+
+  function updateCart() {
+    getUser((user) => {
+        if (user) {
+            $.get('/app/users/' + user._id)
+            .done((res) => {
+                cart = res.data.cart;
+                $('.items').empty();
+                $('.buy_btn').show();
+                if (cart.length === 0) {
+                    $('.no_items').show();
+                    $('.buy_btn').hide();
+                } 
+                cart.forEach((item) => {      
+                          
+                    $('.items').append(`<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                        <div>
+                            <img src="${item.image}" width="100" height="100" alt="">
+                        </div>
+                        <div class="uk-padding-remove-top uk-padding-small">
+                        <h4 class="uk-margin-remove-bottom">${item.name}</h4>
+                        <p class="uk-margin-remove-top">R$ ${item.price}</p>
+                        </div>
+                        <div class="uk-width-auto@m" style="cursor: pointer" onclick="removeFromCart('${item._id}')">
+                        <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <hr class="uk-divider-icon">`);                   
+                })
+            });
+        }
+    });
+  }
+
+    function removeFromCart(id) {
+        getUser((user) => {
+            if (user) {
+                $.ajax({
+                    url: '/app/users/removeFromCart/' + user._id,
+                    type: 'PUT',
+                    data: {id},
+                    success: function(res) {
+                        updateCart();
+                    }
+                });
+            } 
+        });
+
+    }
+  
+  $('#button_login').click(() => {
+      let query = {};
+      Object.values($('#formLogin').serializeArray()).forEach((item) => {
+        query[item.name] = item.value;
+      });
+      $.post('/login', query)
+          .done((res) => {
+            if (res.messages[0].type === 'error') {
+              $('#login_error').html(res.messages[0].body);
+            } else {
+              window.location.href = '/app';
+            }	
+          })
+    });
+
+    $('#button_register').click(() => {
+      let query = {};
+      Object.values($('#formRegister').serializeArray()).forEach((item) => {
+        query[item.name] = item.value;
+      });
+      $.post('/app/users', query)
+          .done((res) => {
+            if (res.messages[0].type === 'error') {
+              $('#register_error').html(res.messages[0].body);
+            } else {
+                $.post('/login', query)
+                .done((res) => {
+                    if (res.messages[0].type === 'error') {
+                    $('#login_error').html(res.messages[0].body);
+                    } else {
+                        window.location.href = '/app';
+                    }	
+                    })
+            }	
+          })
+    });
+
+    function welcome(user = null) {
+        $('.hide-user').hide();
+        $('.show-user').show();
+        if(user.admin) {
+            $('.show-admin').show();
+        } else {
+            $('.show-admin').hide();
+        }
+
+    }
+
+    function getUser(callback = null) {
+      $.ajax({
+          url: "/login/status/",
+          type: "GET",
+          success: function(data) {
+            if (data) {
+                localStorage.setItem('user', JSON.stringify(data));
+                callback?.(data);
+            } else {
+                localStorage.setItem('user', '');
+                callback?.(null);
+            }
+          }
+        });
+    }
+ 
+      function closeOffCanvas(){
+          UIkit.offcanvas('#offcanvas-nav').hide();
+      }
+    });
+  </script>
+  </body>
+</html>
