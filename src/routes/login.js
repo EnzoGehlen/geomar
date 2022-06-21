@@ -17,7 +17,6 @@ module.exports = function (passport) {
                             if (erro) {
                                 res.json({ protocol: '0.0.1', status: 1, messages: [{ type: 'error', body: 'Usuário ou senha inválidos' }] });
                             }
-                            console.log(req.session.passport.user);
                             res.json({
                                 protocol: '0.0.1', status: 1, goto: { local: '/app/admin' }, messages: [{ type: 'success', body: "Login feito com sucesso" }],
                             });

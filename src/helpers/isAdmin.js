@@ -1,10 +1,10 @@
 const isAdmin = (req, res, next) => {
-  next();
-  // if (req.session && req.session.user) {
-      
-  // } else {
-  //     res.redirect('/login');
-  // }
+  if (req.session && req.session.passport && req.session.passport.user.admin) {
+      next();
+  } else {
+      res.statusCode = 401;
+      res.json('Usuário não autorizado').end();
+  }
 };
 
 module.exports = isAdmin;
