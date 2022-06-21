@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const multer = require('multer');
 const Router = require('../factories/RouterFactory');
 const path = require('path');
 
@@ -33,11 +32,6 @@ module.exports = (passport) => {
 
   router.get('/lib', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'views', 'app', 'lib.html'));
-  });
-
-
-  router.get('/login', (req, res) => {
-      res.sendFile(path.resolve(__dirname, '..', 'views', 'app', 'login.html'));
   });
   return router;
 };
